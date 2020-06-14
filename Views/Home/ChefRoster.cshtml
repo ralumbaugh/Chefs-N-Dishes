@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Chef[]
+<div class="container">
+    <div class="row">
+        <h3>Chefs | <a href="/dishes">Dishes</a></h3>
+        <p><a href="/new">Add a Chef</a></p>
+    </div>
+    Check out our roster of Chefs!
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col"># of Dishes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Chef chef in Model)
+            {
+                <tr>
+                    <td>@chef.FirstName @chef.LastName</td>
+                    @if(DateTime.Now.Month.CompareTo(@chef.DateOfBirth.Month) >= 0)
+                    {
+                        @if(DateTime.Now.Day.CompareTo(@chef.DateOfBirth.Day) >= 0)
+                        {
+                            <td>@DateTime.Now.AddYears(-@chef.DateOfBirth.Year).Year</td>
+                        }
+                        else
+                        {
+                            <td>@DateTime.Now.AddYears(-@chef.DateOfBirth.Year-1).Year</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>@DateTime.Now.AddYears(-@chef.DateOfBirth.Year-1).Year</td>
+                    }
+                    <td>@chef.CreatedDishes.Count()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
